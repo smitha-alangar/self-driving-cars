@@ -1,0 +1,61 @@
+﻿<!DOCTYPE html>
+<html>
+    <head>
+        <title>World Editor</title>
+        <link rel="stylesheet" href="styles.css"/>
+    </head>
+    <body>
+        <h1>World editor</h1>
+        <canvas id="roadCanvas"></canvas>
+        <div id="controls">
+            <button onclick="addRandomPoint()"> Add Point</button>
+            <button onclick="addRandomSegment()"> Add Segment</button>
+        </div>
+        <script src="js/math/graph.js"></script>
+        <script src="js/primitives/point.js"></script>
+        <script src="js/primitives/segment.js"></script>
+        <script>
+            function addRandomPoint() {
+                const success = graph.tryAddPoint(
+                    new Point(
+                        Math.random() * roadCanvas.width,
+                        Math.random() * roadCanvas.height)
+                );
+                ctx.clearRect(0, 0, roadCanvas.width, roadCanvas.height);
+                graph.draw(ctx);
+                console.log(success);
+            }
+            function addRandomSegment() {
+                const index1 = Math.floor(Math.random() * graph.points.length);
+                const index2 = Math.floor(Math.random() * graph.points.length);
+                let success = false;
+                if (index1 !== index2) {
+                    success = graph.tryAddSegment(
+                        new Segment(graph.points[index1], graph.points[index2])
+                    );
+                }
+                
+                ctx.clearRect(0, 0, roadCanvas.width, roadCanvas.height);
+                graph.draw(ctx);
+               console.log(success);
+            }
+            roadCanvas.width = 600;
+            roadCanvas.height = 500;
+
+            const ctx = roadCanvas.getContext("2d");
+
+            const p1= new Point(200,200);
+            const p2= new Point(500,200);
+            const p3= new Point(400,400);
+            const p4= new Point(100,300);
+
+            const seg1= new Segment(p1,p2);
+            const seg2= new Segment(p1,p3);
+            const seg3= new Segment(p1,p4);
+
+            const graph = new Graph([p1,p2,p3,p4], [seg1,seg2,seg3]);
+            graph.draw(ctx);
+
+        </script>
+    </body>
+</html>
