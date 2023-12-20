@@ -4,9 +4,10 @@ class Segment {
         this.point2 = p2;
     }
     equals(seg) {
-        return (this.point1.equals(seg.point1) && this.point2.equals(seg.point2) ||
-            this.point1.equals(seg.point2) && this.point2.equals(seg.point1)
-        );
+        return (this.includes(seg.point1) && this.includes(seg.point2));
+    }
+    includes(point) {
+        return this.point1.equals(point) || this.point2.equals(point);
     }
     draw(ctx, width = 2, color = "black") {
         ctx.beginPath();
